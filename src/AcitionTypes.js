@@ -1,0 +1,9 @@
+
+export const GET_COLLEGES_REQUEST = 'GET_COLLEGES_REQUEST';
+export const GET_COLLEGES_SUCCESS = 'GET_COLLEGES_SUCCESS';
+export const GET_COLLEGES_FAILURE = 'GET_COLLEGES_FAILURE';   
+
+export const ADD_USER = 'ADD_USER';    
+export const EDIT_USER = 'EDIT_USER';
+export const DELETE_USER = 'DELETE_USER';
+

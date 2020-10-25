@@ -1,0 +1,48 @@
+.checkbox-wrapper {
+    display: flex;
+}
+
+.checkbox-wrapper .row-check-select {
+    width: 50%;
+}
+
+.checkbox-wrapper .row-check-select input {
+    margin-top: 0;
+}
+.checkbox-wrapper .row-check-select label {
+    width: auto;
+    margin-left: 5px;
+}
+
+.modal-dialog{
+    width: 700px;
+    max-width: 800px !important;
+}
+
+.error{
+    color: red;
+}
+
+.modal-content{
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+.cancel-button{
+    margin-right: 15px;
+}
+
+.label{
+    font-weight: bold;
+}
+
+.button-layout{
+    margin-right: 5px;  
+}
+.form-check{
+    padding-left: 0px;
+}
+
+.form-check input {
+    margin-right: 5px;
+}
