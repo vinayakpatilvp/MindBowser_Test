@@ -1,4 +1,3 @@
-import { object } from "prop-types";
 import * as ActionType from '../../AcitionTypes';
 
 const initialState = {
@@ -39,7 +38,7 @@ export default function courseReducer(state = initialState,action){
         case ActionType.EDIT_USER:
             let ediuserId = action.payload && action.payload.id;
             let updatedUsers = [action.payload].concat(state.users && state.users.filter(user => {
-                return ediuserId != user.id
+                return ediuserId !== user.id
             }))    
 
             return {
@@ -50,7 +49,7 @@ export default function courseReducer(state = initialState,action){
         case ActionType.DELETE_USER:
             
             let users = state.users && state.users.filter(user => {
-                return action.payload != user.id
+                return action.payload !== user.id
             })
                 return {
                     ...state, 

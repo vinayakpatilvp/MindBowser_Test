@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea';
 import Select from "react-select";
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {getColleges,addUser,editUser} from '../Redux/actions/courseActions';
+import {getColleges,addUser,editUser} from '../Redux/actions/userActions';
 import {isEmailValid,isMobileValid,isEmptyOrNull,isNoneChecked} from '../infrastructure/validations';
 import './addUsers.css';
  
@@ -12,7 +12,7 @@ class AddOrEditUser extends Component{
     constructor(props){
         super(props);
         this.state = {
-            birthDate :new Date(),
+            birthDate :"",
             error:{},
             selectedCollege: null
         }
@@ -58,7 +58,7 @@ class AddOrEditUser extends Component{
             let selectedCheckBoxes = [];
             
             selectedCheckBoxes = checkBoxes.filter( hobby => {
-                return this.state[hobby] == true;
+                return this.state[hobby] === true;
             })
 
             if (selectedCheckBoxes.length > 0) {
@@ -93,24 +93,17 @@ class AddOrEditUser extends Component{
         var error = {};
        
             isEmptyOrNull(this.state, error, 'name', 'enter Name');
-            this.state.email ? isEmailValid(this.state,error,"email","Enter Valid Email") : isEmptyOrNull(this.state, error, 'email', 'Email is mandatory'); 
+            this.state.email ?
+             isEmailValid(this.state,error,"email","Enter Valid Email")
+             : isEmptyOrNull(this.state, error, 'email', 'Email is mandatory'); 
 
-            this.state.phone ? isMobileValid(this.state,error,"phone","enter Valid mobile number") : isEmptyOrNull(this.state, error, 'phone', 'Mobile is mandatory');
+            this.state.phone ?
+             isMobileValid(this.state,error,"phone","enter Valid mobile number") 
+             : isEmptyOrNull(this.state, error, 'phone', 'Mobile is mandatory');
 
             isNoneChecked(this.state, error, "Please enter atleast Other hobbies", "isNoneChecked", "travelling", "drawing", "gaming", "reading","other");
-            // this.isEmptyOrNull(this.state, error, 'name', 'enter Name');
-            // this.isEmptyOrNull(this.state, error, 'name', 'enter Name');
-        // {
-        //     getConfigValue(this.formConfiguration,"addShortcutMessages.visibileTo.visible") && getConfigValue(this.formConfiguration,"addShortcutMessages.visibileTo.mandatory") &&
-        //     isEmptyOrNull(this.state, error, 'visibleTo', 'validateField.emptyVisibleTo');
-        // }
-        
-        // {
-        //     getConfigValue(this.formConfiguration,"addShortcutMessages.message.visible") && getConfigValue(this.formConfiguration,"addShortcutMessages.message.mandatory") &&
-        //     isEmptyOrNull(this.state, error, 'message', 'validateField.emptyMessage');
-        // }
-        
-        
+            isEmptyOrNull(this.state, error, 'birthDate', 'Please Select birthDate');
+            isEmptyOrNull(this.state, error, 'selectedCollege', 'Please select College');
         this.setState({
                 ...this.state,
                 error: error
@@ -150,21 +143,13 @@ class AddOrEditUser extends Component{
     }
 
     onCheck(e) {
-        if(e.target.id == "other"){
+        if(e.target.id === "other"){
             (e.target.checked) ? this.setState({ ...this.state,[e.target.id]: true, travelling: false,drawing : false,gaming: false, reading : false, error: { 'isNoneChecked': false} }) : this.setState({ [e.target.id]: false });
         }else{
-            (e.target.checked) ? this.setState({ ...this.state,[e.target.id]: true,other: false, error: { 'isNoneChecked': false} }) : this.setState({ [e.target.id]: false });
+          let error = {...this.state.error,isNoneChecked: false};
+          (e.target.checked) ? this.setState({ ...this.state,[e.target.id]: true,other: false, error }) : this.setState({...this.state, [e.target.id]: false });
         }
-      }
-
-
-    // onValueChange = (e) => {
-    //     let value = e.target ? e.target.type == 'radio' ? e.target.value == 'true' ? true : false : e.target.value : e.value;
-    //     this.setState({
-    //         ...this.state,
-    //         [e.target.id]:value
-    //     })
-    // }
+    }
 
     onValueChange = (event) => {
         this.setState({
@@ -187,24 +172,30 @@ class AddOrEditUser extends Component{
                     <div className="form-group">
                         <span>
                             <label className = "label">Birth Date</label>
-                            <div>
+                            <div class="form-group">
                                 <DatePicker
                                     onChange={this.onDateChange}
                                     value={this.state.birthDate}
+                                    dayPlaceholder = "dd"
+                                    monthPlaceholder = "mm"
+                                    yearPlaceholder = "yyyy"
+                                    maxDate = {new Date()}
                                 />
+                                {this.state.birthDate ? '' : this.state.error && this.state.error["birthDate"] && <label htmlFor="birthDate" className="error">{this.state.error.birthDate}</label>}
                             </div>
                         </span>
                     </div>
                         <div class="form-group">
                             <label className = "label" for="exampleInputPassword1">Email</label>
                             <input type="text" class="form-control" id="email" onChange = {this.onChangeHandler} placeholder="Enter Email" value = {this.state.email}/>
-                            {this.state.email ? this.state.error && this.state.error["email"] ?  this.state.error["email"] : '' : this.state.error && this.state.error["email"] && <label htmlFor="email" className="error">{this.state.error.email}</label>}
+                            {this.state.email ? this.state.error && this.state.error.email ? this.state.error.email && <label htmlFor="email" className="error">{this.state.error.email}</label> : '' : this.state.error && this.state.error.email && <label htmlFor="email" className="error">{this.state.error.email}</label>} 
+
                         </div>
                         <div class="form-group">
                             <label className = "label" for="exampleInputPassword1">Phone</label>
                             <input type="number" class="form-control" id="phone" onChange = {this.onChangeHandler} placeholder="Enter Email"
                             value = {this.state.phone}/>
-                            {this.state.phone ? this.state.error && this.state.error["phone"] ? this.state.error["phone"] : '' : this.state.error && this.state.error["phone"] && <label htmlFor="phone" className="error">{this.state.error.phone}</label>}
+                            {this.state.phone ? this.state.error && this.state.error.phone ? this.state.error.phone && <label htmlFor="phone" className="error">{this.state.error.phone}</label> : '' : this.state.error && this.state.error.phone && <label htmlFor="phone" className="error">{this.state.error.phone}</label>}
                         </div>
                         <div class="form-group">
                         <label className = "label" for="exampleInputPassword1">Address</label>
@@ -252,7 +243,9 @@ class AddOrEditUser extends Component{
                                     onChange={(e) => this.onSelectChange(e)}
                                     resetValue={{ value: "" }}
                                 />
+                        {this.state.selectedCollege ? '' : this.state.error && this.state.error["selectedCollege"] && <label htmlFor="selectedCollege" className="error">{this.state.error.selectedCollege}</label>}
                         </div>
+                        
 
 
                         <div class="form-group">
@@ -280,8 +273,6 @@ class AddOrEditUser extends Component{
                         </div>
                         </div>
                         </div>
-
-                        
 
                         { this.state.other &&  <div class="form-group">
                                     <label className = "label" for="name">Hobbies</label>

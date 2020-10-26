@@ -4,9 +4,6 @@ var Modal = require('react-bootstrap').Modal;
 //https://5c507d49471426000887a6a7--react-bootstrap.netlify.com/components/modal/
 
 export default class GenericModal extends React.Component {
-    constructor(props, context) {
-      super(props, context);
-    }
 
     onSubmit = () => {
         this.props.okFunction();
@@ -28,7 +25,7 @@ export default class GenericModal extends React.Component {
                     keyboard={!!this.props.offEscKey ? false : true} //on ESC key close
                     enforceFocus = {false}
                 >
-                    <Modal.Header closeButton={this.props.closeBtn} className = {this.props.headerClass}>
+                    <Modal.Header closeButton= 'true' className = {this.props.headerClass}>
                         <Modal.Title componentClass='h2'>
                             { this.props.modalTitle}
                         </Modal.Title>

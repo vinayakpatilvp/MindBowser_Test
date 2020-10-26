@@ -16,7 +16,7 @@
 export function isEmailValid(state, error, propName, errorMessage) {
     let emailSplittedArray = state[propName] && state[propName].trim().split('@');
     var validateEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailSplittedArray.length == 2 && emailSplittedArray[0].length < 2 || !validateEmail.test(state[propName] && state[propName].trim())) {
+    if (emailSplittedArray.length === 2 && emailSplittedArray[0].length < 2 || !validateEmail.test(state[propName] && state[propName].trim())) {
         error[propName] = errorMessage;
         let focusError = document.getElementById(propName);
         if (focusError !== null) {

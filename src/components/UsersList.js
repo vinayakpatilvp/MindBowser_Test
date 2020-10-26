@@ -1,10 +1,10 @@
-import  React,{Component,useState} from 'react';
+import  React from 'react';
 
 import GenericModal from './GenericModal';
 import AddOrEditUser from './AddOrEditUser';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {deleteUser} from '../Redux/actions/courseActions';
+import {deleteUser} from '../Redux/actions/userActions';
 import TextInput from './SearchInput';
 import './searchInput.css'
 
@@ -58,7 +58,7 @@ class UsersList extends React.Component {
 
     handleChange = (e) =>{
         let value = e.target && e.target.value;
-        if (e.target.value.trim() == "") {
+        if (e.target.value.trim() === "") {
             value = value.slice(0, 0);
         }
         this.setState({
@@ -93,7 +93,7 @@ class UsersList extends React.Component {
                         <button onClick = {this.showAddUserModal} class="btn btn-primary">Add User</button>
                     </div>
 
-                <div className ="">
+                { this.props.users && !!this.props.users.length && <div className ="">
                     <div className="sub-category" id="actionControls">
                         <div className="right-panel display-inlineflex">
                             <TextInput
@@ -108,14 +108,12 @@ class UsersList extends React.Component {
                             />
                         </div>
                     </div>
+                </div>}          
                 </div>
-                    
-                </div>
-
                 <br/>
 
             <div className = 'row'>
-            {  this.state.users  && this.state.users.length > 0 ? 
+            {  this.state.users && this.state.users.length > 0 ? 
                 <div class =  'col-sm-12'>         
                     <table class="table table-dark">
                         <thead>
@@ -162,7 +160,7 @@ class UsersList extends React.Component {
                 this.state.showAddUserModal && 
                 <GenericModal 
                 show={this.state.showAddUserModal}
-                // onHide={this.closeModal}
+                onHide={this.closeModal}
                 modalTitle= "Add User"
                   body={
                     <AddOrEditUser onCloseModal={this.closeModal}

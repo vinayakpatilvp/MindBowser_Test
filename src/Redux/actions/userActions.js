@@ -17,7 +17,6 @@ export const requestGetColleges =()=>{
     }
   }
   
-  
   export const getCollegesSuccess= (data)=>{
     return{
       type: ActionTypes.GET_COLLEGES_SUCCESS,
